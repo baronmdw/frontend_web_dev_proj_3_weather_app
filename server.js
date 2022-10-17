@@ -1,4 +1,5 @@
 // global variables
+const appData = [];
 
 // setup express environment
 const express = require("express");
@@ -26,3 +27,15 @@ function listening(){
 }
 
 app.get("/salve",(req,res)=>{res.send("Hello World-again")});
+
+// POST handler to add data to app
+app.post("/addDay",addDay);
+function addDay (req,res) {
+    appData.push(req.body);
+    console.log(appData);
+}
+
+app.get("/getData",getData);
+function getData (req,res) {
+    res.send(appData);
+}
