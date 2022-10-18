@@ -7,8 +7,34 @@
     <title>Weather Journal</title>
 </head>
 <body>
-    <div>Hello World</div>
-    <button id="hitMe">Hit Me</button>
+    <div id="header">
+        <h1>My Weather Journal</h1>
+        <label for="unitSelector">Select your Unitstyle</label>
+        <select id="unitSelector">
+            <option value="imperial">Imperial</option>
+            <option value="metric">Metric</option>
+            <option value="standard">Kelvin</option>
+        </select>
+    </div>
+    <div id="inputElements">
+        <label for="countrySelector">Choose your country</label>
+        <select id="countrySelector">
+            <option value="us">USA</option>
+            <option value="gb">Great Britain</option>
+            <option value="de">Germany</option>
+        </select>
+        <label for="zipCode">Enter your ZIP-Code</label>
+        <input type="text" id="zipCode" placeholder="10015">
+        <label for="currentMood">How are you feeling at the moment?</label>
+        <textarea id="currentMood" placeholder="I have never felt any better :)" rows="10" cols="60"></textarea>
+        <button id="submitMood">Submit Mood</button>
+    </div>
+    <div id="outputElements">
+        <div id="date">d</div>
+        <div id="weather">w</div>
+        <div id="temp">t</div>
+        <div id="mood">m</div>
+    </div>
     <script src="./app.js"></script>
 </body>
 </html>
