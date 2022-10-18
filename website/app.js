@@ -1,5 +1,6 @@
 const baseURL = "http://localhost:8080/"
-const apiKey = "ea53dd34102b8c99830e720e490422ba"
+const apiKey = "&appid=ea53dd34102b8c99830e720e490422ba"
+const weatherURL = "https://api.openweathermap.org/data/2.5/weather?zip=";
 
 console.log("Hello World");
 const postData = async (url="", data={}) => {
@@ -29,5 +30,11 @@ const getData = async (url="") => {
     };
 };
 
+function getWeather() {
+    console.log("Kuckuck");
+    getData(weatherURL+"81241,DE"+apiKey);
+}
+
 postData(baseURL+"addDay",{name: "Marc"});
 getData(baseURL+"getData");
+document.getElementById("hitMe").addEventListener("click",getWeather);
