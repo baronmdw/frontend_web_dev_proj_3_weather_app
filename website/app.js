@@ -5,7 +5,6 @@ let unitStyle = "imperial";
 let country = "us";
 let zipCode = "10015";
 
-console.log("Hello World");
 const postData = async (url="", data={}) => {
     // This Function sends a post request to the URL that was handed over including the data in the caller as JSON object
     const response = await fetch(url, {
@@ -57,13 +56,14 @@ function getWeather() {
         postData(baseURL+"addDay",{date:newDate,weather:weatherData,mood:currentMood,unit:unitStyle})
     })
     .then(()=>{
+        // Update UI Elements with the received data
         const journalData = getData(baseURL+"getData")
         .then(function(journalData){console.log(journalData);
-            document.getElementById("date").textContent = journalData.date;
-            document.getElementById("weather").textContent = journalData.weather;
-            document.getElementById("temp").textContent = journalData.temperature;
-            document.getElementById("mood").textContent = journalData.mood;
-            document.getElementById("place").textContent = journalData.place.slice(1,-1);
+            document.getElementById("date").textContent = "Date of Entry:  "+journalData.date;
+            document.getElementById("place").textContent = "The Place to be:  "+journalData.place.replaceAll("\x22","");
+            document.getElementById("weather").textContent = "Weather present:  "+journalData.weather;
+            document.getElementById("temp").textContent = "Temperature during Entry:  "+journalData.temperature;
+            document.getElementById("content").textContent = "Mood of User:  "+journalData.mood;
             getTemperatureUnit(journalData.unitStyle);
     })
 })
@@ -78,10 +78,10 @@ function adaptMetric() {
 function adaptCountry() {
     // Adapt the Country that is of interest which will be called to the openweathermap API
     country = document.getElementById("countrySelector").value;
-    console.log(country);
 }
 
 function getTemperatureUnit(typeString =""){
+    // This Function sets the unit in the temperature based on the unitType that was used (°C, °F or K)
     switch(typeString) {
         case 'imperial':
             unit=" °F";
