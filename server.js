@@ -31,11 +31,14 @@ app.get("/salve",(req,res)=>{res.send("Hello World-again")});
 // POST handler to add data to app
 app.post("/addDay",addDay);
 function addDay (req,res) {
-    appData.push(req.body);
-    console.log(appData);
+    const addedData = {date: req.body.date, weather: req.body.weather.weather[0].main, temperature: req.body.weather.main.temp, unitStyle: req.body.unit, place: req.body.weather.name, mood: req.body.mood};
+    appData.push(addedData);
+    console.log(Data);
+    res.send('')
 }
 
 app.get("/getData",getData);
 function getData (req,res) {
-    res.send(appData);
+    res.send(appData.at(-1));
+    console.log(appData.at(-1));
 }
