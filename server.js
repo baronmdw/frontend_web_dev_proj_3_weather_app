@@ -1,5 +1,6 @@
 // global variables
-const projectData = [];
+const appData = [];
+const projectData = {};
 
 // setup express environment
 const express = require("express");
@@ -31,13 +32,19 @@ app.get("/salve",(req,res)=>{res.send("Hello World-again")});
 // POST handler to add data to app
 app.post("/addDay",addDay);
 function addDay (req,res) {
-    const addedData = {date: req.body.date, weather: req.body.weather.weather[0].main, temperature: req.body.weather.main.temp, unitStyle: req.body.unit, place: req.body.weather.name, mood: req.body.mood};
-    projectData.push(addedData);
-    console.log(addedData);
-    res.send('');
+    projectData["date"]= req.body.date;
+    projectData["weather"]= req.body.weather.weather[0].main;
+    projectData["temperature"]= req.body.weather.main.temp;
+    projectData["unitStyle"]= req.body.unit;
+    projectData["place"]= req.body.weather.name;
+    projectData["mood"]= req.body.mood;
+    
+    appData.push(projectData);
+    console.log("Data pushed: ",projectData);
+    res.send(projectData);
 }
 
 app.get("/getData",getData);
 function getData (req,res) {
-    res.send(projectData.at(-1));
+    res.send(projectData);
 }

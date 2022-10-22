@@ -15,7 +15,7 @@ const postData = async (url="", data={}) => {
     });
     
     try {
-        const retreivedData = await response;
+        const retreivedData = await response.json();
         return retreivedData;
     } catch(error) {
         console.log("There was an error, it was following: ", error);
@@ -48,7 +48,7 @@ function getWeather() {
     }
     // Create Date variable in European Template
     let d = new Date();
-    let newDate = d.getDate()+'.'+ d.getMonth()+'.'+ d.getFullYear();
+    let newDate = d.getDate()+'.'+ (d.getMonth()+1) +'.'+ d.getFullYear();
     // Contact Weathermap API and retrieve Data
     const weatherData = getData(weatherURL+zipCode+","+country+apiKey+"&units="+unitStyle)
     .then(function(weatherData){
@@ -57,14 +57,14 @@ function getWeather() {
     })
     .then(()=>{
         // Update UI Elements with the received data
-        const journalData = getData(baseURL+"getData")
-        .then(function(journalData){console.log(journalData);
-            document.getElementById("date").textContent = "Date of Entry:  "+journalData.date;
-            document.getElementById("place").textContent = "The Place to be:  "+journalData.place.replaceAll("\x22","");
-            document.getElementById("weather").textContent = "Weather present:  "+journalData.weather;
-            document.getElementById("temp").textContent = "Temperature during Entry:  "+journalData.temperature;
-            document.getElementById("content").textContent = "Mood of User:  "+journalData.mood;
-            getTemperatureUnit(journalData.unitStyle);
+        const allData = getData(baseURL+"getData")
+        .then(function(allData){
+            document.getElementById("date").innerHTML = "Date of Entry:  "+allData.date;
+            document.getElementById("place").innerHTML = "The Place to be:  "+allData.place.replaceAll("\x22","");
+            document.getElementById("weather").innerHTML = "Weather present:  "+allData.weather;
+            document.getElementById("temp").innerHTML = "Temperature during Entry:  "+Math.round(allData.temperature);
+            document.getElementById("content").innerHTML = "Mood of User:  "+allData.mood;
+            getTemperatureUnit(allData.unitStyle);
     })
 })
 }
@@ -72,7 +72,6 @@ function getWeather() {
 function adaptMetric() {
     // Adapt the Metric that will be called to the openweathermap API to what was selected by user
     unitStyle = document.getElementById("unitSelector").value;
-    console.log(unitStyle);
 }
 
 function adaptCountry() {
@@ -93,7 +92,7 @@ function getTemperatureUnit(typeString =""){
             unit=" K";
             break;
     }
-    document.getElementById("temp").textContent = document.getElementById("temp").textContent+unit;
+    document.getElementById("temp").innerHTML = document.getElementById("temp").innerHTML+unit;
 }
 
 document.getElementById("submitMood").addEventListener("click",getWeather);
